@@ -9,17 +9,22 @@ class ImageLoader extends StatefulWidget {
   final Widget errorView;
   final BoxFit fit;
   final BoxFit placeHolderFit;
+  final double? width;
+  final double? height;
 
-  ImageLoader({
+
+  const ImageLoader({
     required this.imageUrl,
     required this.placeholder,
     required this.errorView,
     required this.fit,
     required this.placeHolderFit,
+    this.width,
+    this.height,
   });
 
   @override
-  _ImageLoaderState createState() => _ImageLoaderState();
+  State<ImageLoader> createState() => _ImageLoaderState();
 }
 
 class _ImageLoaderState extends State<ImageLoader> with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
@@ -87,7 +92,7 @@ class _ImageLoaderState extends State<ImageLoader> with AutomaticKeepAliveClient
               Positioned.fill(
                 child: Container(
                     alignment: Alignment.topCenter,
-                    margin: EdgeInsets.only(top: 62),
+                    margin: const EdgeInsets.only(top: 62),
                     child: AnimatedBuilder(
                       animation: _animationController,
                       builder: (context, child) {
@@ -112,6 +117,8 @@ class _ImageLoaderState extends State<ImageLoader> with AutomaticKeepAliveClient
           return Image.memory(
             snapshot.data!,
             fit: widget.fit,
+            width: widget.width,
+            height: widget.height,
           );
         }
       },
