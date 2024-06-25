@@ -1,5 +1,8 @@
 library viewzo;
 
+import 'dart:developer';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:viewzo/src/components/image_loader.dart';
 import 'package:viewzo/utils/utils.dart';
@@ -10,15 +13,18 @@ class ViewZo extends StatefulWidget {
   final BoxFit fit;
   final double? width;
   final double? height;
-  void Function(double)? scrollOffsetCallback;
-  void Function(int)? pageCallback;
-  double? scrollBarthickness = 20;
-  Color? scrollThumbColor = Colors.black.withOpacity(0.5);
-  bool? scrollBarThumbVisibility = false;
-  bool? scrollBarTrackVisibility = false;
-  Color? scrollBarTrackColor = Colors.transparent;
+  final void Function(double)? scrollOffsetCallback;
+  final void Function(int)? pageCallback;
+  final double? scrollBarThumbWidth;
+  final Color? scrollBarThumbColor;
+  final bool? scrollBarThumbVisibility;
+  final bool? scrollBarTrackVisibility;
+  final Color? scrollBarTrackColor;
+  final Radius? scrollBarThumbRadius;
+  final Radius? scrollBarTrackRadius;
+  final Map<String, String>? headers;
 
-  ViewZo({
+  const ViewZo({
     super.key,
     required this.items,
     required this.isPage,
@@ -27,11 +33,14 @@ class ViewZo extends StatefulWidget {
     this.height,
     this.scrollOffsetCallback,
     this.pageCallback,
-    this.scrollBarthickness,
-    this.scrollThumbColor,
+    this.scrollBarThumbWidth,
+    this.scrollBarThumbColor,
     this.scrollBarThumbVisibility,
     this.scrollBarTrackVisibility,
     this.scrollBarTrackColor,
+    this.scrollBarThumbRadius,
+    this.scrollBarTrackRadius,
+    this.headers,
   });
 
   @override
@@ -63,14 +72,14 @@ class _ViewZoState extends State<ViewZo> {
 
 
   void _scrollListener() {
-    print("Scroll Position: ${_scrollController.position.pixels}");
+    log("Scroll Position: ${_scrollController.position.pixels}");
     if (widget.scrollOffsetCallback != null) {
       widget.scrollOffsetCallback!(_scrollController.position.pixels);
     }
   }
 
   void _pageListener() {
-    print("Page Position: ${_pageController.page!.round()}");
+    log("Page Position: ${_pageController.page!.round()}");
     if (widget.pageCallback != null) {
       widget.pageCallback!(_pageController.page!.round());
     }
@@ -97,6 +106,7 @@ class _ViewZoState extends State<ViewZo> {
                 'packages/viewzo/assets/images/mosic.png',
                 fit: BoxFit.fill,
               ),
+              headers: widget.headers,
             );
           }
           return Image.asset(
@@ -107,11 +117,13 @@ class _ViewZoState extends State<ViewZo> {
       );
     }
     return RawScrollbar(
-      thickness: widget.scrollBarthickness,
-      thumbColor: widget.scrollThumbColor,
+      thickness: widget.scrollBarThumbWidth,
+      thumbColor: widget.scrollBarThumbColor ?? Colors.transparent,
       thumbVisibility: widget.scrollBarThumbVisibility,
       trackVisibility: widget.scrollBarTrackVisibility,
       trackColor: widget.scrollBarTrackColor,
+      radius: widget.scrollBarThumbRadius,
+      trackRadius: widget.scrollBarTrackRadius,
       controller: _scrollController,
       child: ListView.builder(
         controller: _scrollController,
@@ -134,6 +146,7 @@ class _ViewZoState extends State<ViewZo> {
                 'packages/viewzo/assets/images/mosic.png',
                 fit: BoxFit.fill,
               ),
+              headers: widget.headers,
             );
           }
           return Image.asset(

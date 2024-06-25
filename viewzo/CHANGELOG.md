@@ -1,3 +1,7 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+* init package upload
+
+## 0.0.1+1
+
+* readme update

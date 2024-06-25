@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -11,6 +13,7 @@ class ImageLoader extends StatefulWidget {
   final BoxFit placeHolderFit;
   final double? width;
   final double? height;
+  final Map<String, String>? headers;
 
 
   const ImageLoader({
@@ -21,6 +24,7 @@ class ImageLoader extends StatefulWidget {
     required this.placeHolderFit,
     this.width,
     this.height,
+    this.headers,
   });
 
   @override
@@ -50,18 +54,19 @@ class _ImageLoaderState extends State<ImageLoader> with AutomaticKeepAliveClient
 
   Future<Uint8List> _fetchImage() async {
     try {
-      final response = await http.get(Uri.parse(widget.imageUrl));
+      log('headers:: ${widget.headers}');
+      final response = await http.get(Uri.parse(widget.imageUrl), headers: widget.headers);
 
       if (response.statusCode == 200) {
         return response.bodyBytes;
       } else {
         _errorMessage = 'Failed to load image: HTTP ${response.statusCode}';
-        print(_errorMessage);
+        log(_errorMessage);
         throw Exception(_errorMessage);
       }
     } catch (e) {
       _errorMessage = 'Failed to load image: ${e.toString()}';
-      print(_errorMessage);
+      log(_errorMessage);
       throw Exception(_errorMessage);
     }
   }

@@ -1,7 +1,7 @@
 name: viewzo
-description: "A new Flutter package project."
-version: 0.0.1
-homepage:
+description: "This is a viewer that displays png, jpg, and gif images. Modes include scroll mode and page mode."
+version: 0.0.1+1
+repository: https://github.com/tkdtn2013/ViewZO
 
 environment:
   sdk: '>=3.4.3 <4.0.0'

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:viewzo/viewzo.dart';
 
 void main() {
@@ -61,12 +60,9 @@ class _MyHomePageState extends State<MyHomePage> {
             items: _list,
             isPage: _mode,
             fit: BoxFit.fitWidth,
-            pageCallback: (page) {
-              print("page:: ${page}");
-            },
-            scrollOffsetCallback: (y) {
-              print("y:: ${y}");
-            },
+            scrollBarThumbColor: Colors.red.withOpacity(0.5),
+            scrollBarThumbWidth: 10,
+            scrollBarThumbRadius: const Radius.circular(5),
           ),
           Positioned.fill(
             child:  SafeArea(
