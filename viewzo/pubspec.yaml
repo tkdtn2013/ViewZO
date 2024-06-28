@@ -1,6 +1,6 @@
 name: viewzo
 description: "This is a viewer that displays png, jpg, and gif images. Modes include scroll mode and page mode."
-version: 0.0.1+1
+version: 0.0.1+2
 repository: https://github.com/tkdtn2013/ViewZO
 
 environment:
