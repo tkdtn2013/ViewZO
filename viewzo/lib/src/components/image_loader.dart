@@ -15,7 +15,6 @@ class ImageLoader extends StatefulWidget {
   final double? height;
   final Map<String, String>? headers;
 
-
   const ImageLoader({
     required this.imageUrl,
     required this.placeholder,
@@ -31,7 +30,8 @@ class ImageLoader extends StatefulWidget {
   State<ImageLoader> createState() => _ImageLoaderState();
 }
 
-class _ImageLoaderState extends State<ImageLoader> with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
+class _ImageLoaderState extends State<ImageLoader>
+    with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
   late Future<Uint8List> _imageData;
   String _errorMessage = '';
   late AnimationController _animationController;
@@ -55,7 +55,8 @@ class _ImageLoaderState extends State<ImageLoader> with AutomaticKeepAliveClient
   Future<Uint8List> _fetchImage() async {
     try {
       log('headers:: ${widget.headers}');
-      final response = await http.get(Uri.parse(widget.imageUrl), headers: widget.headers);
+      final response =
+          await http.get(Uri.parse(widget.imageUrl), headers: widget.headers);
 
       if (response.statusCode == 200) {
         return response.bodyBytes;
@@ -96,24 +97,26 @@ class _ImageLoaderState extends State<ImageLoader> with AutomaticKeepAliveClient
               widget.errorView,
               Positioned.fill(
                 child: Container(
-                    alignment: Alignment.topCenter,
-                    margin: const EdgeInsets.only(top: 62),
-                    child: AnimatedBuilder(
-                      animation: _animationController,
-                      builder: (context, child) {
-                        return Transform.rotate(
-                          angle: _animationController.value * 2.0 * 3.1415927, // 360도 회전
-                          child: IconButton(
-                            onPressed: _retryLoadImage,
-                            icon: Image.asset(
-                              'packages/viewzo/assets/images/refreshIcon.png',
-                              width: 45,
-                              height: 45,
-                            ),
+                  alignment: Alignment.topCenter,
+                  margin: const EdgeInsets.only(top: 62),
+                  child: AnimatedBuilder(
+                    animation: _animationController,
+                    builder: (context, child) {
+                      return Transform.rotate(
+                        angle: _animationController.value *
+                            2.0 *
+                            3.1415927, // 360도 회전
+                        child: IconButton(
+                          onPressed: _retryLoadImage,
+                          icon: Image.asset(
+                            'packages/viewzo/assets/images/refreshIcon.png',
+                            width: 45,
+                            height: 45,
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ],

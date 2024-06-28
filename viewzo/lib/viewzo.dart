@@ -4,7 +4,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:viewzo/src/components/image_loader.dart';
-import 'package:viewzo/utils/utils.dart';
+import 'package:viewzo/src/utils/utils.dart';
 
 /// A widget that displays a list or a page view of images.
 ///

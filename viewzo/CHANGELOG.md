@@ -9,3 +9,7 @@
 ## 0.0.1+2
 
 * score contents update
+
+## 1.0.0
+
+* live version
