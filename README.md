@@ -4,7 +4,7 @@
 
 <div align="center">
 
-[![KakaoPay](https://img.shields.io/badge/KakaoPay-Donate-FFCD00?style=plastic&logo=kakao)](https://qr.kakaopay.com/FeigyCEXy1f406175)
+[![KakaoPay](https://img.shields.io/badge/KakaoPay-Donate-FFCD00?style=plastic&logo=kakao)](https://qr.kakaopay.com/FeiqyCEXy1f401603)
 [![pub package](https://img.shields.io/pub/v/viewzo.svg)](https://pub.dev/packages/viewzo)
 
 </div>
