@@ -85,7 +85,6 @@ class _ViewZoState extends State<ViewZo> with AutomaticKeepAliveClientMixin {
   final Map<int, int> _pageCountMap = {};
   List<PageViewItem> _pageViewItems = [];
 
-
   @override
   bool get wantKeepAlive => true;
 
@@ -138,6 +137,7 @@ class _ViewZoState extends State<ViewZo> with AutomaticKeepAliveClientMixin {
       widget.pageCallback!(_pageController.page!.round());
     }
   }
+
   /// Listener for the page count.
   void _onPageCount(int index, int count) {
     setState(() {

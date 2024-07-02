@@ -17,3 +17,7 @@
 ## 1.0.1
 
 * pdf Viewer function add
+
+## 1.0.2
+
+* readme update

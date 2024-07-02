@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
               scrollBarThumbColor: Colors.red.withOpacity(0.5),
               scrollBarThumbWidth: 10,
               scrollBarThumbRadius: const Radius.circular(5),
-              headers: const {'Content-Type':'application/json'},
+              headers: const {'Content-Type': 'application/json'},
             ),
             Positioned.fill(
               child: SafeArea(

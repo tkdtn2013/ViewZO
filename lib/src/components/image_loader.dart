@@ -254,11 +254,10 @@ Future<Uint8List> consolidateHttpClientResponseBytes(
   final completer = Completer<Uint8List>();
   final contents = <int>[];
   response.listen(
-        (List<int> data) => contents.addAll(data),
+    (List<int> data) => contents.addAll(data),
     onDone: () => completer.complete(Uint8List.fromList(contents)),
     onError: completer.completeError,
     cancelOnError: true,
   );
   return completer.future;
 }
-
