@@ -1,10 +1,8 @@
 library viewzo;
 
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:viewzo/src/components/image_loader.dart';
-import 'package:viewzo/src/utils/utils.dart';
+import 'package:viewzo/src/image_libery.dart';
+import 'package:viewzo/src/model/page_view_model.dart';
 
 /// A widget that displays a list or a page view of images.
 ///
@@ -81,9 +79,15 @@ class ViewZo extends StatefulWidget {
   State<ViewZo> createState() => _ViewZoState();
 }
 
-class _ViewZoState extends State<ViewZo> {
+class _ViewZoState extends State<ViewZo> with AutomaticKeepAliveClientMixin {
   late ScrollController _scrollController;
   late PageController _pageController;
+  final Map<int, int> _pageCountMap = {};
+  List<PageViewItem> _pageViewItems = [];
+
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -93,6 +97,7 @@ class _ViewZoState extends State<ViewZo> {
 
     _scrollController.addListener(_scrollListener);
     _pageController.addListener(_pageListener);
+    _initializePageViewItems();
   }
 
   @override
@@ -104,9 +109,24 @@ class _ViewZoState extends State<ViewZo> {
     super.dispose();
   }
 
+  /// Page count calculation.
+  void _initializePageViewItems() {
+    _pageViewItems = [];
+    for (int i = 0; i < widget.items.length; i++) {
+      final item = widget.items[i];
+      if (Utils.isUrlFormat(item) && item.endsWith('.pdf')) {
+        final pageCount = _pageCountMap[i] ?? 1;
+        for (int j = 0; j < pageCount; j++) {
+          _pageViewItems.add(PageViewItem(url: item, pageIndex: j));
+        }
+      } else {
+        _pageViewItems.add(PageViewItem(url: item));
+      }
+    }
+  }
+
   /// Listener for the scroll controller that reports the current scroll position.
   void _scrollListener() {
-    log("Scroll Position: ${_scrollController.position.pixels}");
     if (widget.scrollOffsetCallback != null) {
       widget.scrollOffsetCallback!(_scrollController.position.pixels);
     }
@@ -114,24 +134,32 @@ class _ViewZoState extends State<ViewZo> {
 
   /// Listener for the page controller that reports the current page index.
   void _pageListener() {
-    log("Page Position: ${_pageController.page!.round()}");
     if (widget.pageCallback != null) {
       widget.pageCallback!(_pageController.page!.round());
     }
   }
+  /// Listener for the page count.
+  void _onPageCount(int index, int count) {
+    setState(() {
+      _pageCountMap[index] = count;
+      _initializePageViewItems();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     if (widget.isPage) {
       return PageView.builder(
         controller: _pageController,
-        itemCount: widget.items.length,
+        itemCount: _pageViewItems.length,
         physics: const ClampingScrollPhysics(),
         itemBuilder: (context, index) {
-          final image = widget.items[index];
-          if (Utils.isUrlFormat(image)) {
+          // final image = widget.items[index];
+          final item = _pageViewItems[index];
+          if (Utils.isUrlFormat(item.url)) {
             return ImageLoader(
-              imageUrl: image,
+              url: item.url,
               fit: widget.fit,
               width: widget.width,
               height: widget.height,
@@ -142,10 +170,14 @@ class _ViewZoState extends State<ViewZo> {
                 fit: BoxFit.fill,
               ),
               headers: widget.headers,
+              isPage: widget.isPage,
+              pageController: _pageController,
+              onPageCount: (count) => _onPageCount(index, count),
+              pageIndex: item.pageIndex,
             );
           }
           return Image.asset(
-            image,
+            item.url,
             fit: BoxFit.fill,
           );
         },
@@ -171,7 +203,7 @@ class _ViewZoState extends State<ViewZo> {
           final image = widget.items[index];
           if (Utils.isUrlFormat(image)) {
             return ImageLoader(
-              imageUrl: image,
+              url: image,
               fit: widget.fit,
               width: widget.width,
               height: widget.height,
@@ -182,6 +214,9 @@ class _ViewZoState extends State<ViewZo> {
                 fit: BoxFit.fill,
               ),
               headers: widget.headers,
+              isPage: widget.isPage,
+              pageController: _pageController,
+              onPageCount: (count) => _onPageCount(index, count),
             );
           }
           return Image.asset(

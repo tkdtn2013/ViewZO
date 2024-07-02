@@ -13,3 +13,7 @@
 ## 1.0.0
 
 * live version
+
+## 1.0.1
+
+* pdf Viewer function add

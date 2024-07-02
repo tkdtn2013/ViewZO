@@ -1,6 +1,6 @@
 name: viewzo
 description: "This is a viewer that displays png, jpg, and gif images. Modes include scroll mode and page mode."
-version: 1.0.0
+version: 1.0.1
 repository: https://github.com/tkdtn2013/ViewZO
 
 environment:
@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^1.2.1
+  pdfx: ^2.6.0
 
 dev_dependencies:
   flutter_test:
