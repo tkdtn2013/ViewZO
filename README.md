@@ -1,7 +1,15 @@
 
+<div align="center">
+
+[![KakaoPay](https://img.shields.io/badge/KakaoPay-Donate-FFCD00?style=plastic&logo=kakao)](https://qr.kakaopay.com/FeigyCEXy1f406175)
+![pub package](https://img.shields.io/pub/v/viewzo.svg)](https://pub.dev/packages/viewzo)
+
+</div>
+<hr>
+
 # ViewZo Library
 
-`ViewZo`는 다양한 이미지를 스크롤과 페이징으로 표시할 수 있는 Flutter 위젯입니다. 커스터마이징 옵션을 제공합니다.
+`ViewZo`는 다양한 이미지와 pdf를 스크롤과 페이징으로 표시할 수 있는 Flutter 위젯입니다. 커스터마이징 옵션을 제공합니다.
 
 ## 사용법
 
