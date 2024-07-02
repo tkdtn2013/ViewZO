@@ -43,9 +43,11 @@ class _MyHomePageState extends State<MyHomePage> {
   void _incrementList() {
     setState(() {
       _list.add(
-          "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/abd61545-e61b-43e5-a4bc-e9dcff4b7b4e/dgsy9y9-8c3df2eb-a266-439b-8fdc-165d116a62b9.jpg/v1/fit/w_632,h_1800,q_70,strp/neo_webtoon_project_sample_panel_1_by_chromaticlevelstudio_dgsy9y9-375w-2x.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MjI4MCIsInBhdGgiOiJcL2ZcL2FiZDYxNTQ1LWU2MWItNDNlNS1hNGJjLWU5ZGNmZjRiN2I0ZVwvZGdzeTl5OS04YzNkZjJlYi1hMjY2LTQzOWItOGZkYy0xNjVkMTE2YTYyYjkuanBnIiwid2lkdGgiOiI8PTgwMCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.XdcbHqCpH4D6pUGY82UVS_PAGttNcrVdL_gxZcRruMc");
+        "https://cdn.pixabay.com/photo/2023/05/07/01/55/man-7975388_1280.png");
       _list.add(
-          "https://i.pinimg.com/originals/1a/13/2d/1a132dee024ad10ac3a14dcb69ca0755.gif");
+        "https://cdn.pixabay.com/animation/2022/12/05/15/23/15-23-06-837_512.gif");
+      _list.add(
+          "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf");
     });
   }
 
