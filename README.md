@@ -1,3 +1,6 @@
+<p align="center">
+<img src="https://raw.githubusercontent.com/tkdtn2013/ViewZO/main/screenshots/banner.webp" alt="ViewZO" />
+</p>
 
 <div align="center">
 
@@ -6,6 +9,10 @@
 
 </div>
 <hr>
+
+## Design Credit & screen recording
+<img src="https://raw.githubusercontent.com/tkdtn2013/ViewZO/main/screenshots/viewzo.gif"/>
+
 
 # ViewZo Library
 
