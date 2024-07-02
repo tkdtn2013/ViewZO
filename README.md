@@ -10,7 +10,7 @@
 </div>
 <hr>
 
-## Design Credit & screen recording
+## screen recording
 <img src="https://raw.githubusercontent.com/tkdtn2013/ViewZO/main/screenshots/viewzo.gif"/>
 
 
