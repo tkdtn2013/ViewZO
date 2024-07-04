@@ -161,6 +161,6 @@ ViewZo(
 ```
 
 ## BUY ME A COFFEE
-<img src="https://raw.githubusercontent.com/tkdtn2013/ViewZO/main/screenshots/buyMeCoffee.JPG"/>
+<img src="https://raw.githubusercontent.com/tkdtn2013/ViewZO/main/screenshots/buyMeCoffee.JPG" width="300"/>
 
 이 라이브러리는 다양한 이미지를 쉽게 로드하고 표시할 수 있는 기능을 제공합니다. 사용 예제를 통해 다양한 기능을 탐색해보세요.
