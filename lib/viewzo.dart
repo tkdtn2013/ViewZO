@@ -1,5 +1,7 @@
 library viewzo;
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:viewzo/src/image_libery.dart';
 import 'package:viewzo/src/model/page_view_model.dart';
@@ -113,7 +115,7 @@ class _ViewZoState extends State<ViewZo> with AutomaticKeepAliveClientMixin {
     _pageViewItems = [];
     for (int i = 0; i < widget.items.length; i++) {
       final item = widget.items[i];
-      if (Utils.isUrlFormat(item) && item.endsWith('.pdf')) {
+      if (item.endsWith('.pdf')) {
         final pageCount = _pageCountMap[i] ?? 1;
         for (int j = 0; j < pageCount; j++) {
           _pageViewItems.add(PageViewItem(url: item, pageIndex: j));
@@ -139,9 +141,15 @@ class _ViewZoState extends State<ViewZo> with AutomaticKeepAliveClientMixin {
   }
 
   /// Listener for the page count.
-  void _onPageCount(int index, int count) {
+  void _onPageCount(int index, int count, String url) {
     setState(() {
-      _pageCountMap[index] = count;
+      log('index :: $index count:: $count');
+
+      for (int i = 0; i < widget.items.length; i++) {
+        if (widget.items[i] == url) {
+          _pageCountMap[i] = count;
+        }
+      }
       _initializePageViewItems();
     });
   }
@@ -150,14 +158,17 @@ class _ViewZoState extends State<ViewZo> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     if (widget.isPage) {
-      return PageView.builder(
-        controller: _pageController,
-        itemCount: _pageViewItems.length,
-        physics: const ClampingScrollPhysics(),
-        itemBuilder: (context, index) {
-          // final image = widget.items[index];
-          final item = _pageViewItems[index];
-          if (Utils.isUrlFormat(item.url)) {
+      return InteractiveViewer(
+        panEnabled: true,
+        scaleEnabled: true,
+        minScale: 0.5,
+        maxScale: 4.0,
+        child: PageView.builder(
+          controller: _pageController,
+          itemCount: _pageViewItems.length,
+          physics: const ClampingScrollPhysics(),
+          itemBuilder: (context, index) {
+            final item = _pageViewItems[index];
             return ImageLoader(
               url: item.url,
               fit: widget.fit,
@@ -172,15 +183,11 @@ class _ViewZoState extends State<ViewZo> with AutomaticKeepAliveClientMixin {
               headers: widget.headers,
               isPage: widget.isPage,
               pageController: _pageController,
-              onPageCount: (count) => _onPageCount(index, count),
+              onPageCount: (count, url) => _onPageCount(index, count, url),
               pageIndex: item.pageIndex,
             );
-          }
-          return Image.asset(
-            item.url,
-            fit: BoxFit.fill,
-          );
-        },
+          },
+        ),
       );
     }
     return RawScrollbar(
@@ -192,16 +199,20 @@ class _ViewZoState extends State<ViewZo> with AutomaticKeepAliveClientMixin {
       radius: widget.scrollBarThumbRadius,
       trackRadius: widget.scrollBarTrackRadius,
       controller: _scrollController,
-      child: ListView.builder(
-        controller: _scrollController,
-        padding: EdgeInsets.zero,
-        itemCount: widget.items.length,
-        physics: const ClampingScrollPhysics(),
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          final image = widget.items[index];
-          if (Utils.isUrlFormat(image)) {
+      child: InteractiveViewer(
+        panEnabled: true,
+        scaleEnabled: true,
+        minScale: 0.5,
+        maxScale: 4.0,
+        child: ListView.builder(
+          controller: _scrollController,
+          padding: EdgeInsets.zero,
+          itemCount: widget.items.length,
+          physics: const ClampingScrollPhysics(),
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            final image = widget.items[index];
             return ImageLoader(
               url: image,
               fit: widget.fit,
@@ -216,16 +227,10 @@ class _ViewZoState extends State<ViewZo> with AutomaticKeepAliveClientMixin {
               headers: widget.headers,
               isPage: widget.isPage,
               pageController: _pageController,
-              onPageCount: (count) => _onPageCount(index, count),
+              onPageCount: (count, url) => _onPageCount(index, count, url),
             );
-          }
-          return Image.asset(
-            image,
-            fit: widget.fit,
-            width: widget.width,
-            height: widget.height,
-          );
-        },
+          },
+        ),
       ),
     );
   }

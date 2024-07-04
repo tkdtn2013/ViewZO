@@ -36,18 +36,24 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<String> _list = [
     "https://cdn.pixabay.com/photo/2023/05/07/01/55/man-7975388_1280.png",
     "https://cdn.pixabay.com/animation/2022/12/05/15/23/15-23-06-837_512.gif",
-    "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf"
+    "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf",
+    "assets/images/sample.jpg",
+    "assets/documents/sample.pdf",
+    "assets/documents/sample1.pdf"
   ];
   bool _mode = false;
 
   void _incrementList() {
     setState(() {
       _list.add(
-        "https://cdn.pixabay.com/photo/2023/05/07/01/55/man-7975388_1280.png");
+          "https://cdn.pixabay.com/photo/2023/05/07/01/55/man-7975388_1280.png");
       _list.add(
-        "https://cdn.pixabay.com/animation/2022/12/05/15/23/15-23-06-837_512.gif");
+          "https://cdn.pixabay.com/animation/2022/12/05/15/23/15-23-06-837_512.gif");
       _list.add(
           "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf");
+      _list.add("assets/images/sample.jpg");
+      _list.add("assets/documents/sample.pdf");
+      _list.add("assets/documents/sample1.pdf");
     });
   }
 

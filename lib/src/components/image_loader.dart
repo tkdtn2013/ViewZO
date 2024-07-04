@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:io' as io;
-import 'dart:typed_data';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:io';
+import 'package:flutter/foundation.dart' show HttpClientResponse, kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:pdfx/pdfx.dart';
 
@@ -44,13 +44,14 @@ class ImageLoader extends StatefulWidget {
   final PageController pageController;
 
   /// Callback to notify the parent widget of the number of pages.
-  final Function(int) onPageCount;
+  final Function(int, String) onPageCount;
 
   /// The index of the page to display if the content is a multi-page document.
   final int pageIndex;
 
   /// Creates an [ImageLoader] widget.
   const ImageLoader({
+    super.key,
     required this.url,
     required this.placeholder,
     required this.errorView,
@@ -97,30 +98,44 @@ class _ImageLoaderState extends State<ImageLoader>
   /// Fetches the data from the given URL.
   Future<List<Uint8List>> _fetchData() async {
     try {
-      final uri = Uri.parse(widget.url);
-
-      final response = await _httpGet(uri, widget.headers);
-
-      if (response.statusCode == 200) {
-        final bytes = response.bodyBytes;
-        final contentType = response.headers['content-type'];
-
-        if (contentType != null && contentType.contains('application/pdf')) {
-          return _processPdf(bytes);
-        } else if (contentType != null && contentType.startsWith('image/')) {
-          return [bytes];
+      if (widget.url.startsWith('assets/')) {
+        final bytes = await rootBundle.load(widget.url);
+        return _processData(bytes.buffer.asUint8List(), widget.url);
+      } else {
+        final uri = Uri.parse(widget.url);
+        final response = await _httpGet(uri, widget.headers);
+        if (response.statusCode == 200) {
+          final bytes = response.bodyBytes;
+          final contentType = response.headers['content-type'];
+          return _processData(bytes, contentType);
         } else {
-          _errorMessage = 'Unsupported content type: $contentType';
+          _errorMessage = 'Failed to load data: HTTP ${response.statusCode}';
           log(_errorMessage);
           throw Exception(_errorMessage);
         }
-      } else {
-        _errorMessage = 'Failed to load data: HTTP ${response.statusCode}';
-        log(_errorMessage);
-        throw Exception(_errorMessage);
       }
     } catch (e) {
       _errorMessage = 'Failed to load data: ${e.toString()}';
+      log(_errorMessage);
+      throw Exception(_errorMessage);
+    }
+  }
+
+  Future<List<Uint8List>> _processData(
+      Uint8List bytes, String? contentType) async {
+    if (contentType != null &&
+        (contentType.contains('application/pdf') ||
+            contentType.contains('.pdf'))) {
+      return _processPdf(bytes);
+    } else if (contentType != null &&
+        (contentType.startsWith('image/') ||
+            contentType.contains('.jpg') ||
+            contentType.contains('.jpeg') ||
+            contentType.contains('.png') ||
+            contentType.contains('.gif'))) {
+      return [bytes];
+    } else {
+      _errorMessage = 'Unsupported content type: $contentType';
       log(_errorMessage);
       throw Exception(_errorMessage);
     }
@@ -131,19 +146,17 @@ class _ImageLoaderState extends State<ImageLoader>
     if (kIsWeb) {
       return http.get(uri, headers: headers);
     } else {
-      final httpClient = io.HttpClient();
+      final httpClient = HttpClient();
       final request = await httpClient.getUrl(uri);
       headers?.forEach((key, value) {
         request.headers.set(key, value);
       });
       final response = await request.close();
       final responseBytes = await consolidateHttpClientResponseBytes(response);
-
       final responseHeaders = <String, String>{};
       response.headers.forEach((name, values) {
         responseHeaders[name] = values.join(', ');
       });
-
       return http.Response.bytes(responseBytes, response.statusCode,
           headers: responseHeaders);
     }
@@ -153,7 +166,7 @@ class _ImageLoaderState extends State<ImageLoader>
   Future<List<Uint8List>> _processPdf(Uint8List bytes) async {
     final document = await PdfDocument.openData(bytes);
     final pages = <Uint8List>[];
-
+    log('document.pagesCount:: ${document.pagesCount}');
     for (var i = 1; i <= document.pagesCount; i++) {
       final page = await document.getPage(i);
       final pageImage = await page.render(
@@ -163,8 +176,7 @@ class _ImageLoaderState extends State<ImageLoader>
       );
       pages.add(pageImage!.bytes);
     }
-
-    widget.onPageCount(pages.length);
+    widget.onPageCount(pages.length, widget.url);
     return pages;
   }
 
@@ -248,9 +260,9 @@ class _ImageLoaderState extends State<ImageLoader>
   }
 }
 
-/// Consolidates the bytes from an [io.HttpClientResponse] into a [Uint8List].
+/// Consolidates the bytes from an [HttpClientResponse] into a [Uint8List].
 Future<Uint8List> consolidateHttpClientResponseBytes(
-    io.HttpClientResponse response) async {
+    HttpClientResponse response) async {
   final completer = Completer<Uint8List>();
   final contents = <int>[];
   response.listen(

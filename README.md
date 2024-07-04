@@ -4,7 +4,7 @@
 
 <div align="center">
 
-[![KakaoPay](https://img.shields.io/badge/KakaoPay-Donate-FFCD00?style=plastic&logo=kakao)](https://qr.kakaopay.com/FeiqyCEXy1f401603)
+[![KakaoPay](https://img.shields.io/badge/KakaoPay-Donate-FFCD00?style=plastic&logo=kakao)](https://qr.kakaopay.com/FeiqyCEXy1f408899)
 [![pub package](https://img.shields.io/pub/v/viewzo.svg)](https://pub.dev/packages/viewzo)
 
 </div>
@@ -159,5 +159,8 @@ ViewZo(
   },
 )
 ```
+
+## BUY ME A COFFEE
+<img src="https://raw.githubusercontent.com/tkdtn2013/ViewZO/main/screenshots/buyMeCoffee.JPG"/>
 
 이 라이브러리는 다양한 이미지를 쉽게 로드하고 표시할 수 있는 기능을 제공합니다. 사용 예제를 통해 다양한 기능을 탐색해보세요.

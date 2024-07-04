@@ -21,3 +21,9 @@
 ## 1.0.2
 
 * readme update
+
+
+## 1.0.3
+
+* local pdf bug fix
+* zoom function update
